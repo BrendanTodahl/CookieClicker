@@ -1,10 +1,10 @@
 <template>
   <div class="wrapper">
     <div class="sidebar">
-      <buildingList />
+      <buildingList :numberOfCookies="numberOfCookies" :buildings="buildings" @buyBuilding="buyBuilding" />
     </div>
     <div class="content">
-      <cookie />
+      <cookie :numberOfCookies="numberOfCookies" @addCookie="addCookie" />
     </div>
   </div>
 </template>
@@ -17,6 +17,28 @@ export default {
   components: {
     BuildingList,
     Cookie
+  },
+  methods: {
+    addCookie () {
+      this.numberOfCookies++
+    },
+    buyBuilding (cost) {
+      this.numberOfCookies -= cost
+    }
+  },
+  data () {
+    return {
+      numberOfCookies: 0,
+      buildings: [{
+        name: 'Mouse',
+        cost: 1,
+        numOwned: 0
+      }, {
+        name: 'Grandma',
+        cost: 2,
+        numOwned: 0
+      }]
+    }
   }
 }
 </script>

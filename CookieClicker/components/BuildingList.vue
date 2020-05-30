@@ -1,24 +1,39 @@
 <template>
   <nav>
-    <h3 class="sidebar-title">Buildings</h3>
+    <h3 class="sidebar-title">
+      Buildings
+    </h3>
 
     <ul class="building-list list-unstyled">
-      <li>
-        <span>Item 1</span>
-      </li>
-      <li>
-        <span>Item 2</span>
-      </li>
-      <li>
-        <span>Item 3</span>
+      <li v-for="building in buildings" :key="building.name">
+        <building :model="building" :numberOfCookies="numberOfCookies" @buyBuilding="buyBuilding" />
       </li>
     </ul>
   </nav>
 </template>
 
 <script>
-export default {
+import Building from '~/components/Building.vue'
 
+export default {
+  components: {
+    Building
+  },
+  props: {
+    numberOfCookies: {
+      type: Number,
+      required: true
+    },
+    buildings: {
+      type: Array,
+      required: true
+    }
+  },
+  methods: {
+    buyBuilding (cost) {
+      this.$emit('buyBuilding', cost)
+    }
+  }
 }
 </script>
 
@@ -29,13 +44,5 @@ export default {
 
 .building-list li:first-of-type {
   border-top: 1px solid black;
-}
-
-.building-list li {
-  height: 3em;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-bottom: 1px solid black;
 }
 </style>
