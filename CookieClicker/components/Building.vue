@@ -15,6 +15,15 @@ export default {
     }
   },
   computed: {
+    name () {
+      return this.model.name
+    },
+    cost () {
+      return this.model.cost
+    },
+    numOwned () {
+      return this.model.numOwned
+    },
     canBuy () {
       return this.numberOfCookies >= this.cost
     }
@@ -22,16 +31,11 @@ export default {
   methods: {
     buy () {
       if (this.canBuy) {
-        this.numOwned++
-        this.$emit('buyBuilding', this.cost)
+        this.$emit('buyBuilding', {
+          name: this.name,
+          cost: this.cost
+        })
       }
-    }
-  },
-  data () {
-    return {
-      name: this.model.name,
-      cost: this.model.cost,
-      numOwned: this.model.numOwned
     }
   }
 }

@@ -6,7 +6,7 @@
 
     <ul class="building-list list-unstyled">
       <li v-for="building in buildings" :key="building.name">
-        <building :model="building" :numberOfCookies="numberOfCookies" @buyBuilding="buyBuilding" />
+        <building :model="building" :number-of-cookies="numberOfCookies" @buyBuilding="buyBuilding" />
       </li>
     </ul>
   </nav>
@@ -30,8 +30,8 @@ export default {
     }
   },
   methods: {
-    buyBuilding (cost) {
-      this.$emit('buyBuilding', cost)
+    buyBuilding (buildingInfo) {
+      this.$emit('buyBuilding', buildingInfo)
     }
   }
 }
