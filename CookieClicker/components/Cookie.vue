@@ -9,15 +9,16 @@
 
 <script>
 export default {
-  props: {
-    numberOfCookies: {
-      type: Number,
-      required: true
+  computed: {
+    numberOfCookies () {
+      return this.$store.getters.numberOfCookies
     }
   },
   methods: {
     click () {
-      this.$emit('addCookie')
+      this.$store.dispatch('addCookie', {
+        amount: 1
+      })
     }
   }
 }

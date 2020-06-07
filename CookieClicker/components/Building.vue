@@ -1,5 +1,5 @@
 <template>
-  <div class="building" @click="buy">{{ name }} - {{ cost }} - {{ numOwned }}</div>
+  <span class="building" @click="buy">{{ name }} - {{ cost }} - {{ numOwned }}</span>
 </template>
 
 <script>
@@ -7,10 +7,6 @@ export default {
   props: {
     model: {
       type: Object,
-      required: true
-    },
-    numberOfCookies: {
-      type: Number,
       required: true
     }
   },
@@ -22,19 +18,22 @@ export default {
       return this.model.cost
     },
     numOwned () {
-      return this.model.numOwned
+      const building = this.$store.getters.buildingsOwnedByName(this.model.name)
+      return building ? building.numOwned : 0
     },
     canBuy () {
-      return this.numberOfCookies >= this.cost
+      return this.$store.getters.numberOfCookies >= this.cost
     }
   },
   methods: {
     buy () {
       if (this.canBuy) {
-        this.$emit('buyBuilding', {
+        this.$store.dispatch('buyBuilding', {
           name: this.name,
           cost: this.cost
         })
+
+        this.$emit('updateAutoClick')
       }
     }
   }
