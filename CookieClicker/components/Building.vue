@@ -15,7 +15,8 @@ export default {
       return this.model.name
     },
     cost () {
-      return this.model.cost
+      const numOwned = this.numOwned
+      return Math.ceil((this.model.baseCost * ((1.15 ** (numOwned + 1)) - (1.15 ** numOwned))) / 0.15)
     },
     numOwned () {
       const building = this.$store.getters.buildingsOwnedByName(this.model.name)

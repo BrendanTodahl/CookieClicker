@@ -1,11 +1,11 @@
 export const state = () => ({
-  numberOfCookies: 0,
+  numberOfCookies: 15,
   buildingsOwned: []
 })
 
 export const mutations = {
   ADD_COOKIE: (state, req) => {
-    state.numberOfCookies += req.amount
+    state.numberOfCookies = (Math.round((state.numberOfCookies + req.amount) * 100) / 100)
   },
   BUY_BUILDING: (state, req) => {
     const building = state.buildingsOwned.find(bo => bo.name === req.name)
@@ -18,7 +18,7 @@ export const mutations = {
       })
     }
 
-    state.numberOfCookies -= req.cost
+    state.numberOfCookies = Math.round(state.numberOfCookies - req.cost)
   }
 }
 

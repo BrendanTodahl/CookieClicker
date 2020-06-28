@@ -35,7 +35,7 @@ export default {
       let cps = 0
       this.$store.getters.buildingsOwned.forEach((building) => {
         const buildingInfo = this.buildings.find(x => x.name === building.name)
-        cps += buildingInfo ? building.numOwned * buildingInfo.cps : 0
+        cps += buildingInfo ? building.numOwned * buildingInfo.baseCps : 0
       })
 
       this.cpsInterval = setInterval(() => {
