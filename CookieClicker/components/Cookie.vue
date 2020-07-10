@@ -4,6 +4,7 @@
       Cookie
     </button>
     <div>Cookies: {{ numberOfCookies }}</div>
+    <div>Per Second: {{ cookiesPerSecond }}</div>
   </div>
 </template>
 
@@ -12,6 +13,9 @@ export default {
   computed: {
     numberOfCookies () {
       return this.$store.getters.numberOfCookies
+    },
+    cookiesPerSecond () {
+      return this.$store.getters.cookiesPerSecond
     }
   },
   methods: {
