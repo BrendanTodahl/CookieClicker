@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import { Decimal } from 'decimal.js'
 import Building from '~/components/Building.vue'
 import buildingInfo from '~/data/buildingInfo'
 
@@ -37,10 +38,11 @@ export default {
       //  - probably not, but at > 1mil, we start show 1.001 million etc.
 
       // todo: move this out. It doesn't belong here.
-      let cps = 0
+      let cps = new Decimal(0)
       this.$store.getters.buildingsOwned.forEach((building) => {
         const buildingInfo = this.buildings.find(x => x.name === building.name)
-        cps += buildingInfo ? building.numOwned * buildingInfo.baseCps : 0
+        const amountToAdd = buildingInfo ? building.numOwned.times(buildingInfo.baseCps) : new Decimal(0)
+        cps = cps.plus(amountToAdd)
       })
 
       cps = cps.toFixed(1)
@@ -51,9 +53,9 @@ export default {
 
       this.cpsInterval = setInterval(() => {
         this.$store.dispatch('addCookie', {
-          amount: 1 // cps
+          amount: new Decimal(1) // cps
         })
-      }, (1000 / cps).toFixed(1))
+      }, (new Decimal(1000).dividedBy(cps)).toFixed(1))
     }
   }
 }

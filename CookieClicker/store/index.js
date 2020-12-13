@@ -1,12 +1,14 @@
+import { Decimal } from 'decimal.js'
+
 export const state = () => ({
-  numberOfCookies: 0,
-  cookiesPerSecond: 0,
+  numberOfCookies: new Decimal(0),
+  cookiesPerSecond: new Decimal(0),
   buildingsOwned: []
 })
 
 export const mutations = {
   ADD_COOKIE: (state, req) => {
-    state.numberOfCookies = (Math.round((state.numberOfCookies + req.amount) * 100) / 100)
+    state.numberOfCookies = (Decimal.round((state.numberOfCookies.plus(req.amount)).times(100)).dividedBy(100))
   },
   SET_COOKIES_PER_SECOND: (state, req) => {
     state.cookiesPerSecond = req.cookiesPerSecond
@@ -14,15 +16,15 @@ export const mutations = {
   BUY_BUILDING: (state, req) => {
     const building = state.buildingsOwned.find(bo => bo.name === req.name)
     if (building) {
-      building.numOwned++
+      building.numOwned = building.numOwned.plus(1)
     } else {
       state.buildingsOwned.push({
         name: req.name,
-        numOwned: 1
+        numOwned: new Decimal(1)
       })
     }
 
-    state.numberOfCookies = Math.round(state.numberOfCookies - req.cost)
+    state.numberOfCookies = Decimal.round(state.numberOfCookies.minus(req.cost))
   }
 }
 

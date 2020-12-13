@@ -1,3 +1,4 @@
+import { Decimal } from 'decimal.js';
 <template>
   <div>
     <button type="button" class="btn btn-primary" @click="click">
@@ -9,6 +10,8 @@
 </template>
 
 <script>
+import { Decimal } from 'decimal.js'
+
 export default {
   computed: {
     numberOfCookies () {
@@ -21,7 +24,7 @@ export default {
   methods: {
     click () {
       this.$store.dispatch('addCookie', {
-        amount: 1
+        amount: new Decimal(1)
       })
     }
   }

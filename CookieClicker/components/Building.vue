@@ -3,6 +3,8 @@
 </template>
 
 <script>
+import { Decimal } from 'decimal.js'
+
 export default {
   props: {
     model: {
@@ -16,14 +18,16 @@ export default {
     },
     cost () {
       const numOwned = this.numOwned
-      return Math.ceil((this.model.baseCost * ((1.15 ** (numOwned + 1)) - (1.15 ** numOwned))) / 0.15)
+      const oneFive = new Decimal(1.15)
+      const zeroFive = new Decimal(0.15)
+      return Decimal.ceil((this.model.baseCost.times(oneFive.pow(numOwned.plus(1)).minus(oneFive.pow(numOwned)))).dividedBy(zeroFive))
     },
     numOwned () {
       const building = this.$store.getters.buildingsOwnedByName(this.model.name)
-      return building ? building.numOwned : 0
+      return building ? building.numOwned : new Decimal(0)
     },
     canBuy () {
-      return this.$store.getters.numberOfCookies >= this.cost
+      return this.$store.getters.numberOfCookies.comparedTo(this.cost) >= 0
     }
   },
   methods: {
