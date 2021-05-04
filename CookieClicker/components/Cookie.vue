@@ -11,14 +11,16 @@ import { Decimal } from 'decimal.js';
 
 <script>
 import { Decimal } from 'decimal.js'
+import NumberFormatter from '../mixins/NumberFormatter'
 
 export default {
+  mixins: [NumberFormatter],
   computed: {
     numberOfCookies () {
-      return this.$store.getters.numberOfCookies
+      return this.toReadableForm(this.$store.getters.numberOfCookies)
     },
     cookiesPerSecond () {
-      return this.$store.getters.cookiesPerSecond
+      return this.toReadableForm(this.$store.getters.cookiesPerSecond)
     }
   },
   methods: {

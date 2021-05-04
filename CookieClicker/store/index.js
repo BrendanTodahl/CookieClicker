@@ -29,7 +29,6 @@ export const mutations = {
 }
 
 export const actions = {
-  // todo: may not need to pass an amount.
   addCookie: (context, req) => {
     context.commit('ADD_COOKIE', req)
   },

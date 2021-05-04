@@ -48,14 +48,16 @@ export default {
       cps = cps.toFixed(1)
 
       this.$store.dispatch('setCookiesPerSecond', {
-        cookiesPerSecond: cps
+        cookiesPerSecond: new Decimal(cps)
       })
 
+      // todo: need to rework this. when cps gets very high, calculation isn't working due to intervalTime being 0.0
+      const intervalTime = new Decimal(1000).dividedBy(cps).toFixed(1)
       this.cpsInterval = setInterval(() => {
         this.$store.dispatch('addCookie', {
           amount: new Decimal(1) // cps
         })
-      }, (new Decimal(1000).dividedBy(cps)).toFixed(1))
+      }, intervalTime)
     }
   }
 }
